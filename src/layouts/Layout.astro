@@ -1,0 +1,198 @@
+---
+type Props = {
+	title?: string
+	description?: string
+	heroImage?: string
+}
+
+const {
+	title = 'W0: An Open VLA for Long-Horizon Tasks',
+	description = 'Flagship of the Project Weasel W series.',
+	heroImage = 'weasel-logo.png',
+} = Astro.props
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '')
+---
+
+<!doctype html>
+<html lang='en'>
+	<head>
+		<meta charset='utf-8' />
+		<meta name='viewport' content='width=device-width,initial-scale=1' />
+		<link rel='icon' type='image/png' href={`${base}/${heroImage}`} />
+		<link rel='apple-touch-icon' href={`${base}/${heroImage}`} />
+		<link rel='preconnect' href='https://fonts.googleapis.com' />
+		<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+		<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i&display=swap' />
+		<title>{title}</title>
+		<meta name='title' content={title} />
+		<meta name='description' content={description} />
+		<meta property='og:title' content={title} />
+		<meta property='og:description' content={description} />
+		<script is:inline>
+			(function () {
+				try {
+					var saved = localStorage.getItem('theme');
+					var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+					var theme = saved || (prefersDark ? 'dark' : 'light');
+					document.documentElement.setAttribute('data-theme', theme);
+				} catch (e) {}
+			})();
+		</script>
+	</head>
+	<body>
+		<button id='theme-toggle' class='theme-toggle' aria-label='Toggle theme'>
+			<span class='theme-toggle-icon'>◐</span>
+		</button>
+		<slot />
+		<script is:inline>
+			(function () {
+				var btn = document.getElementById('theme-toggle');
+				if (!btn) return;
+				btn.addEventListener('click', function () {
+					var current = document.documentElement.getAttribute('data-theme') || 'light';
+					var next = current === 'dark' ? 'light' : 'dark';
+					document.documentElement.setAttribute('data-theme', next);
+					try { localStorage.setItem('theme', next); } catch (e) {}
+				});
+			})();
+		</script>
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--bg: #ffffff;
+		--fg: #000000;
+		--muted: #555555;
+		--link: #1772d0;
+		--link-hover: #f09228;
+		--card-bg: #fafafa;
+		--border: #e6e6e6;
+	}
+
+	html[data-theme='dark'] {
+		--bg: #0f1115;
+		--fg: #e7e7e7;
+		--muted: #a0a0a0;
+		--link: #6aa9f0;
+		--link-hover: #f0a958;
+		--card-bg: #1a1d23;
+		--border: #2a2d33;
+	}
+
+	html, body {
+		margin: 0;
+		padding: 0;
+		background: var(--bg);
+		color: var(--fg);
+		transition: background 0.18s ease, color 0.18s ease;
+	}
+
+	body, td, th, tr, p, a {
+		font-family: 'Lato', Verdana, Helvetica, sans-serif;
+		font-size: 15px;
+		line-height: 1.5;
+	}
+
+	a {
+		color: var(--link);
+		text-decoration: none;
+	}
+	a:focus, a:hover {
+		color: var(--link-hover);
+	}
+
+	h1 {
+		font-size: 28px;
+		font-weight: 700;
+		margin: 0 0 12px 0;
+	}
+
+	h2 {
+		font-size: 20px;
+		font-weight: 700;
+		margin: 24px 0 8px 0;
+	}
+
+	.outer {
+		max-width: 800px;
+		margin: 0 auto;
+		padding: 64px 20px 80px;
+	}
+
+	.hero {
+		display: flex;
+		gap: 24px;
+		align-items: center;
+		margin-bottom: 24px;
+	}
+
+	.hero-image {
+		width: 120px;
+		height: 120px;
+		object-fit: cover;
+		border-radius: 6px;
+		flex-shrink: 0;
+		background: var(--card-bg);
+	}
+
+	.hero-text {
+		flex: 1;
+	}
+
+	.hero-text .subtitle {
+		color: var(--muted);
+		margin: 0;
+	}
+
+	.section {
+		margin-top: 28px;
+		padding-top: 16px;
+		border-top: 1px solid var(--border);
+	}
+
+	.muted { color: var(--muted); }
+
+	.theme-toggle {
+		position: fixed;
+		top: 16px;
+		right: 16px;
+		width: 36px;
+		height: 36px;
+		border-radius: 50%;
+		border: 1px solid var(--border);
+		background: var(--card-bg);
+		color: var(--fg);
+		font-size: 18px;
+		line-height: 1;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+	}
+	.theme-toggle:hover {
+		border-color: var(--link);
+		color: var(--link);
+	}
+
+	.repo-link {
+		display: inline-block;
+		margin-top: 12px;
+		padding: 6px 12px;
+		border: 1px solid var(--border);
+		border-radius: 4px;
+		font-size: 13px;
+		color: var(--fg);
+	}
+	.repo-link:hover {
+		border-color: var(--link);
+		color: var(--link);
+	}
+
+	@media (max-width: 600px) {
+		.hero { flex-direction: column; align-items: flex-start; }
+		.hero-image { width: 100px; height: 100px; }
+	}
+</style>
