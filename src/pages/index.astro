@@ -16,31 +16,30 @@ const links = [
 	{ label: 'Data & Model', href: 'https://huggingface.co/KMK040412' },
 ]
 
-const gallery = [
-	{ f: 'live_stopwatch_START.gif', l: 'stopwatch' },
-	{ f: 'static_000_SimpleSmsSend_d0.0.gif', l: 'Simple Sms Send' },
-	{ f: 'static_001_SimpleSmsSend_d0.0.gif', l: 'Simple Sms Send' },
-	{ f: 'static_002_NotesRecipeIngredien_d0.0.gif', l: 'Notes Recipe Ingredien' },
-	{ f: 'static_003_RetroPlaylistDuratio_d1.0.gif', l: 'Retro Playlist Duratio' },
-	{ f: 'static_004_RetroPlaylistDuratio_d3.6.gif', l: 'Retro Playlist Duratio' },
-	{ f: 'static_005_ApplockProAPPLockGua_d4.0.gif', l: 'Applock Pro APPLock Gua' },
-	{ f: 'static_006_RetroPlaylistDuratio_d4.0.gif', l: 'Retro Playlist Duratio' },
-	{ f: 'static_007_RetroPlaylistDuratio_d5.0.gif', l: 'Retro Playlist Duratio' },
-	{ f: 'static_008_RetroPlaylistDuratio_d5.7.gif', l: 'Retro Playlist Duratio' },
-	{ f: 'static_009_RetroPlaylistDuratio_d6.7.gif', l: 'Retro Playlist Duratio' },
-	{ f: 'static_010_RetroPlaylistDuratio_d8.5.gif', l: 'Retro Playlist Duratio' },
-	{ f: 'static_011_ChatbotAISmartAssist_d32.0.gif', l: 'Chatbot AISmart Assist' },
-	{ f: 'static_012_GooglePlayStoreSetti_d43.6.gif', l: 'Google Play Store Setti' },
-	{ f: 'static_013_ApplockProAPPLockGua_d49.0.gif', l: 'Applock Pro APPLock Gua' },
-	{ f: 'static_014_SimpleSmsSend_d49.2.gif', l: 'Simple Sms Send' },
-	{ f: 'static_015_GooglePlayStoreSetti_d52.8.gif', l: 'Google Play Store Setti' },
-	{ f: 'static_016_ClockZohoMeetingX_d54.7.gif', l: 'Clock Zoho Meeting X' },
-	{ f: 'static_017_ApplockProAPPLockGua_d55.4.gif', l: 'Applock Pro APPLock Gua' },
-	{ f: 'static_018_SimpleSmsSend_d60.1.gif', l: 'Simple Sms Send' },
-	{ f: 'static_019_MarkorEditNote_d62.6.gif', l: 'Markor Edit Note' },
-	{ f: 'static_020_app_d63.1.gif', l: 'app' },
-	{ f: 'static_021_ClockZohoMeetingX_d64.6.gif', l: 'Clock Zoho Meeting X' },
-	{ f: 'static_022_SimpleSmsResend_d65.6.gif', l: 'Simple Sms Resend' },
+// Chain-of-thought reasoning examples (reason, then act); GT vs prediction shown.
+const reasoning = [
+	{ f: 'reasoning_02_comandroidchrome.gif', l: 'Chrome' },
+	{ f: 'reasoning_04_ChatbotAISmartA.gif', l: 'Chatbot AI assistant' },
+	{ f: 'reasoning_07_ClockZohoMeetin.gif', l: 'Clock / Zoho Meeting' },
+	{ f: 'reasoning_09_comgoogleandroid.gif', l: 'Google (Android)' },
+	{ f: 'reasoning_16_SimpleSmsSendRec.gif', l: 'Simple SMS' },
+	{ f: 'reasoning_20_SimpleCalendarEv.gif', l: 'Simple Calendar' },
+	{ f: 'reasoning_21_MarkorCreateNote.gif', l: 'Markor — create note' },
+	{ f: 'reasoning_24_YoutubeThings.gif', l: 'YouTube' },
+]
+
+// One-step decoding: a single block-diffusion decode of one action (bd4, no autoregression).
+const onestep = [
+	{ f: 'onestep_000_SimpleSmsSend_d0.0.gif', l: 'Simple SMS Send' },
+	{ f: 'onestep_002_NotesRecipeIngredien_d0.0.gif', l: 'Notes — recipe' },
+	{ f: 'onestep_003_RetroPlaylistDuratio_d1.0.gif', l: 'Retro Playlist' },
+	{ f: 'onestep_005_ApplockProAPPLockGua_d4.0.gif', l: 'Applock Pro' },
+	{ f: 'onestep_011_ChatbotAISmartAssist_d32.0.gif', l: 'Chatbot AI assistant' },
+	{ f: 'onestep_012_GooglePlayStoreSetti_d43.6.gif', l: 'Google Play Store' },
+	{ f: 'onestep_016_ClockZohoMeetingX_d54.7.gif', l: 'Clock / Zoho Meeting' },
+	{ f: 'onestep_019_MarkorEditNote_d62.6.gif', l: 'Markor — edit note' },
+	{ f: 'onestep_020_app_d63.1.gif', l: 'App switch' },
+	{ f: 'onestep_022_SimpleSmsResend_d65.6.gif', l: 'Simple SMS Resend' },
 ]
 ---
 
@@ -99,12 +98,26 @@ const gallery = [
 		forward passes (12 vs. 45 NFE), at the same decoded action.
 	</p>
 
-	<h1>Demo gallery</h1>
-	<p class='muted'>Example cases of W0 driving real Android apps end to end (live AndroidWorld rollouts).</p>
-	<div class='gallery'>
-		{gallery.map((g) => (
+	<h1>Reasoning, then acting</h1>
+	<p class='muted'>W0 can emit a chain-of-thought before the action. Each example shows the
+		model's reasoning and the decoded action on a live AndroidWorld screen (ground-truth target
+		vs. the model's prediction). Click any example to enlarge and read the full reasoning.</p>
+	<div class='gallery gallery-wide'>
+		{reasoning.map((g) => (
 			<figure class='gcard'>
-				<img loading='lazy' src={`${base}/assets/gallery/${g.f}`} alt={g.l} />
+				<img loading='lazy' src={`${base}/assets/reasoning/${g.f}`} alt={g.l} />
+				<figcaption>{g.l}</figcaption>
+			</figure>
+		))}
+	</div>
+
+	<h1>One-step decoding</h1>
+	<p class='muted'>The same agent without chain-of-thought: a single block-diffusion decode
+		(bd4, no autoregression) emits one UI action in one step. Click to enlarge.</p>
+	<div class='gallery'>
+		{onestep.map((g) => (
+			<figure class='gcard'>
+				<img loading='lazy' src={`${base}/assets/onestep/${g.f}`} alt={g.l} />
 				<figcaption>{g.l}</figcaption>
 			</figure>
 		))}
@@ -136,6 +149,7 @@ const gallery = [
 	.twoup video { width: 100%; border-radius: 6px; border: 1px solid var(--border); display: block; }
 	.twoup h3 { text-align: center; margin: 0 0 8px; }
 	.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; margin: 14px 0; }
+	.gallery-wide { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
 	.gcard { margin: 0; }
 	.gcard img { width: 100%; border-radius: 8px; border: 1px solid var(--border); display: block; cursor: zoom-in; transition: transform .12s ease; }
 	.gcard img:hover { transform: scale(1.03); }
