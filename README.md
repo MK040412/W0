@@ -1,5 +1,5 @@
-# W0: An Open VLA for Long-Horizon Tasks
+# W0: A VLM-Based GUI Agent with Block-Diffusion Mode Steering
 
-Flagship of the [Project Weasel](https://github.com/MK040412/Project-Weasel) W series.
+Flagship of the [Project Weasel](https://mk040412.github.io/Project-Weasel/) W series.
 
 Live: https://mk040412.github.io/W0/

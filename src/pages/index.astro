@@ -4,40 +4,142 @@ import Layout from '../layouts/Layout.astro'
 const base = import.meta.env.BASE_URL.replace(/\/$/, '')
 
 const authors = [
-	{ name: 'Kang Minkyu', href: 'https://mk040412.github.io/' },
+	{ name: 'Minkyu Kang', affiliation: 'UNIST' },
+	{ name: 'JinHo Kim', affiliation: 'UNIST' },
+	{ name: 'Eunseop Shin', affiliation: 'UNIST' },
+	{ name: 'Dayeon Hwang', affiliation: 'UNIST' },
 ]
 
 const links = [
 	{ label: 'Project Weasel', href: 'https://mk040412.github.io/Project-Weasel/' },
+	{ label: 'Technical Report', href: `${base}/W0_Technical_Report.pdf` },
+	{ label: 'Data & Model', href: 'https://huggingface.co/KMK040412' },
+]
+
+const gallery = [
+	{ f: 'live_stopwatch_START.gif', l: 'stopwatch' },
+	{ f: 'static_000_SimpleSmsSend_d0.0.gif', l: 'Simple Sms Send' },
+	{ f: 'static_001_SimpleSmsSend_d0.0.gif', l: 'Simple Sms Send' },
+	{ f: 'static_002_NotesRecipeIngredien_d0.0.gif', l: 'Notes Recipe Ingredien' },
+	{ f: 'static_003_RetroPlaylistDuratio_d1.0.gif', l: 'Retro Playlist Duratio' },
+	{ f: 'static_004_RetroPlaylistDuratio_d3.6.gif', l: 'Retro Playlist Duratio' },
+	{ f: 'static_005_ApplockProAPPLockGua_d4.0.gif', l: 'Applock Pro APPLock Gua' },
+	{ f: 'static_006_RetroPlaylistDuratio_d4.0.gif', l: 'Retro Playlist Duratio' },
+	{ f: 'static_007_RetroPlaylistDuratio_d5.0.gif', l: 'Retro Playlist Duratio' },
+	{ f: 'static_008_RetroPlaylistDuratio_d5.7.gif', l: 'Retro Playlist Duratio' },
+	{ f: 'static_009_RetroPlaylistDuratio_d6.7.gif', l: 'Retro Playlist Duratio' },
+	{ f: 'static_010_RetroPlaylistDuratio_d8.5.gif', l: 'Retro Playlist Duratio' },
+	{ f: 'static_011_ChatbotAISmartAssist_d32.0.gif', l: 'Chatbot AISmart Assist' },
+	{ f: 'static_012_GooglePlayStoreSetti_d43.6.gif', l: 'Google Play Store Setti' },
+	{ f: 'static_013_ApplockProAPPLockGua_d49.0.gif', l: 'Applock Pro APPLock Gua' },
+	{ f: 'static_014_SimpleSmsSend_d49.2.gif', l: 'Simple Sms Send' },
+	{ f: 'static_015_GooglePlayStoreSetti_d52.8.gif', l: 'Google Play Store Setti' },
+	{ f: 'static_016_ClockZohoMeetingX_d54.7.gif', l: 'Clock Zoho Meeting X' },
+	{ f: 'static_017_ApplockProAPPLockGua_d55.4.gif', l: 'Applock Pro APPLock Gua' },
+	{ f: 'static_018_SimpleSmsSend_d60.1.gif', l: 'Simple Sms Send' },
+	{ f: 'static_019_MarkorEditNote_d62.6.gif', l: 'Markor Edit Note' },
+	{ f: 'static_020_app_d63.1.gif', l: 'app' },
+	{ f: 'static_021_ClockZohoMeetingX_d64.6.gif', l: 'Clock Zoho Meeting X' },
+	{ f: 'static_022_SimpleSmsResend_d65.6.gif', l: 'Simple Sms Resend' },
 ]
 ---
 
 <Layout
-	title='W0: An Open VLA for Long-Horizon Tasks'
-	pageTitle='W0'
-	description='Main project of Project Weasel — first entry in the W series, an open VLA for long-horizon tasks.'
+	title='W0: A VLM-Based GUI Agent with Block-Diffusion Mode Steering'
+	pageTitle='W0 · Project Weasel'
+	description='W0 (Project Weasel): a VLM-based GUI agent with a block-discrete diffusion action head and selector-only RLVR (MSPO). Technical report, demos, data and models.'
 	authors={authors}
 	links={links}
-	hero={`${base}/weasel-logo.png`}
-	heroAlt='W0 hero image'
+	hero={`${base}/assets/hero_decode.gif`}
+	heroAlt='W0 block-diffusion decoding vs autoregression on a live GUI task'
 	faviconHref={`${base}/weasel-logo.png`}
 >
-	<h1>Overview</h1>
-	<ul>
-		<li><b>W0</b> is the main project of <a href='https://mk040412.github.io/Project-Weasel/'>Project Weasel</a>.</li>
-		<li>Coming soon.</li>
-	</ul>
-
-	<h1>Method</h1>
-	<p class='muted'>Coming soon.</p>
-
-	<h1>Results</h1>
-	<p class='muted'>Coming soon.</p>
-
-	<hr />
-	<h1>Acknowledgement</h1>
-	<p>
-		Part of <a href='https://mk040412.github.io/Project-Weasel/'>Project Weasel</a>, maintained by{' '}
-		<a href='https://mk040412.github.io/'>Kang Minkyu</a>.
+	<p class='note muted'>
+		Additional data &amp; models are released on
+		<a href='https://huggingface.co/KMK040412'><b>KMK040412</b></a> (Hugging&nbsp;Face).
 	</p>
+
+	<h1>Overview</h1>
+	<p>
+		<b>W0</b> keeps a <b>frozen</b> screen-language backbone and bounded memory, decodes each UI
+		action with a <b>block-discrete diffusion</b> head, and trains <b>only</b> a categorical mode
+		selector with critic-free RLVR (<b>MSPO</b>).
+	</p>
+	<figure class='fig'>
+		<img src={`${base}/assets/teaser.png`} alt='W0 at a glance: latency, task success, convergence' />
+		<figcaption class='figcap'>
+			<b>Figure&nbsp;1 — W0 at a glance.</b>
+			<i>Left:</i> at the deployed block size <code>bd16</code>, block-diffusion decoding cuts
+			per-chunk decode latency over an autoregressive decoder (~2.8×).
+			<i>Middle:</i> selector-only W0 reaches the highest GUI task success, above SFT and the two
+			critic-free RLVR baselines — <b>GRPO</b> and <b>RLOO</b> — applied to the full block-dVLM policy.
+			<i>Right:</i> W0 reaches that regime with fewer verifier-driven update rounds.
+			(Technical-report snapshot; numbers to be finalized.)
+		</figcaption>
+	</figure>
+
+	<h1>Block diffusion vs. autoregression</h1>
+	<p>
+		The same UI action, decoded two ways. Autoregression emits one token per forward pass; block
+		diffusion denoises the whole action chunk in parallel — fewer forward passes, lower latency, at
+		matched output.
+	</p>
+	<div class='twoup'>
+		<figure>
+			<h3>Gmail action (with screen)</h3>
+			<video src={`${base}/assets/cmp_gmail.mp4`} autoplay loop muted playsinline></video>
+		</figure>
+		<figure>
+			<h3>Action decoding (clean view)</h3>
+			<video src={`${base}/assets/cmp_type.mp4`} autoplay loop muted playsinline></video>
+		</figure>
+	</div>
+	<p class='muted figcap'>
+		Block diffusion fills the action in parallel — in this example ≈3.8× faster and ≈3.8× fewer
+		forward passes (12 vs. 45 NFE), at the same decoded action.
+	</p>
+
+	<h1>Demo gallery</h1>
+	<p class='muted'>Example cases of W0 driving real Android apps end to end (live AndroidWorld rollouts).</p>
+	<div class='gallery'>
+		{gallery.map((g) => (
+			<figure class='gcard'>
+				<img loading='lazy' src={`${base}/assets/gallery/${g.f}`} alt={g.l} />
+				<figcaption>{g.l}</figcaption>
+			</figure>
+		))}
+	</div>
+
+	<h1>Team</h1>
+	<figure class='fig'>
+		<img src={`${base}/assets/team.jpg`} alt='Project Weasel team' />
+	</figure>
+	<div class='team-names'>
+		<div><div class='nm'>황다연</div><div class='muted'>Dayeon Hwang</div></div>
+		<div><div class='nm'>신은섭</div><div class='muted'>Eunseop Shin</div></div>
+		<div><div class='nm'>강민규</div><div class='muted'>Minkyu Kang</div></div>
+		<div><div class='nm'>김진호</div><div class='muted'>JinHo Kim</div></div>
+	</div>
+	<p class='muted figcap'>Left to right · UNIST</p>
 </Layout>
+
+<style>
+	.note { text-align: center; margin-top: -6px; }
+	.fig { max-width: 820px; margin: 18px auto; }
+	.fig img { width: 100%; height: auto; display: block; border-radius: 6px; border: 1px solid var(--border); }
+	.figcap { font-size: 15px; color: var(--muted); text-align: center; margin-top: 10px; }
+	.twoup { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 14px 0; }
+	.twoup figure { margin: 0; }
+	.twoup video { width: 100%; border-radius: 6px; border: 1px solid var(--border); display: block; }
+	.twoup h3 { text-align: center; margin: 0 0 8px; }
+	.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; margin: 14px 0; }
+	.gcard { margin: 0; }
+	.gcard img { width: 100%; border-radius: 8px; border: 1px solid var(--border); display: block; }
+	.gcard figcaption { font-size: 12px; color: var(--muted); text-align: center; margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+	.team-names { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 760px; margin: 12px auto 0; text-align: center; }
+	.team-names .nm { font-weight: 700; }
+	@media (max-width: 700px) {
+		.twoup { grid-template-columns: 1fr; }
+		.team-names { grid-template-columns: repeat(2, 1fr); }
+	}
+</style>
