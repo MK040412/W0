@@ -111,21 +111,24 @@ const gallery = [
 	</div>
 
 	<h1>Team</h1>
-	<figure class='fig'>
+	<figure class='team-photo'>
 		<img src={`${base}/assets/team.jpg`} alt='Project Weasel team' />
 	</figure>
 	<div class='team-names'>
-		<div><div class='nm'>황다연</div><div class='muted'>Dayeon Hwang</div></div>
-		<div><div class='nm'>신은섭</div><div class='muted'>Eunseop Shin</div></div>
-		<div><div class='nm'>강민규</div><div class='muted'>Minkyu Kang</div></div>
-		<div><div class='nm'>김진호</div><div class='muted'>JinHo Kim</div></div>
+		<div class='nm'>Dayeon Hwang</div>
+		<div class='nm'>Eunseop Shin</div>
+		<div class='nm'>Minkyu Kang</div>
+		<div class='nm'>JinHo Kim</div>
 	</div>
-	<p class='muted figcap'>Left to right · UNIST</p>
+
+	<div id='lightbox' class='lightbox' role='dialog' aria-label='enlarged demo'>
+		<img id='lightbox-img' src='' alt='' />
+	</div>
 </Layout>
 
 <style>
 	.note { text-align: center; margin-top: -6px; }
-	.fig { max-width: 820px; margin: 18px auto; }
+	.fig { max-width: 720px; margin: 18px auto; }
 	.fig img { width: 100%; height: auto; display: block; border-radius: 6px; border: 1px solid var(--border); }
 	.figcap { font-size: 15px; color: var(--muted); text-align: center; margin-top: 10px; }
 	.twoup { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 14px 0; }
@@ -134,12 +137,43 @@ const gallery = [
 	.twoup h3 { text-align: center; margin: 0 0 8px; }
 	.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; margin: 14px 0; }
 	.gcard { margin: 0; }
-	.gcard img { width: 100%; border-radius: 8px; border: 1px solid var(--border); display: block; }
+	.gcard img { width: 100%; border-radius: 8px; border: 1px solid var(--border); display: block; cursor: zoom-in; transition: transform .12s ease; }
+	.gcard img:hover { transform: scale(1.03); }
 	.gcard figcaption { font-size: 12px; color: var(--muted); text-align: center; margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-	.team-names { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 760px; margin: 12px auto 0; text-align: center; }
+	.team-photo { max-width: 600px; margin: 16px auto; }
+	.team-photo img { width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid var(--border); }
+	.team-names { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-width: 600px; margin: 10px auto 0; text-align: center; }
 	.team-names .nm { font-weight: 700; }
+	/* click-to-enlarge lightbox for the demo gallery */
+	.lightbox { position: fixed; inset: 0; background: rgba(10, 16, 28, 0.88); display: none;
+		align-items: center; justify-content: center; z-index: 1000; cursor: zoom-out; padding: 24px; }
+	.lightbox.open { display: flex; }
+	.lightbox img { max-width: 92vw; max-height: 92vh; width: auto; height: auto; border-radius: 10px;
+		box-shadow: 0 10px 60px rgba(0, 0, 0, 0.6); }
 	@media (max-width: 700px) {
 		.twoup { grid-template-columns: 1fr; }
 		.team-names { grid-template-columns: repeat(2, 1fr); }
 	}
 </style>
+
+<script>
+	const lb = document.getElementById('lightbox')
+	const lbImg = document.getElementById('lightbox-img')
+	if (lb && lbImg) {
+		document.querySelectorAll('.gcard img').forEach((img) => {
+			img.addEventListener('click', () => {
+				lbImg.setAttribute('src', img.getAttribute('src') || '')
+				lbImg.setAttribute('alt', img.getAttribute('alt') || '')
+				lb.classList.add('open')
+			})
+		})
+		const close = () => {
+			lb.classList.remove('open')
+			lbImg.setAttribute('src', '')
+		}
+		lb.addEventListener('click', close)
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape') close()
+		})
+	}
+</script>
