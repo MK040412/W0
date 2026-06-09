@@ -26,17 +26,15 @@ const reasoning = [
 ]
 
 // One-step decoding: a single block-diffusion decode of one action (bd4, no autoregression).
+// Curated to correct groundings (green tap marker = model's tap, on target); deduped by task.
 const onestep = [
-	{ f: 'onestep_000_SimpleSmsSend_d0.0.gif', l: 'Simple SMS Send' },
-	{ f: 'onestep_002_NotesRecipeIngredien_d0.0.gif', l: 'Notes — recipe' },
-	{ f: 'onestep_003_RetroPlaylistDuratio_d1.0.gif', l: 'Retro Playlist' },
+	{ f: 'onestep_000_SimpleSmsSend_d0.0.gif', l: 'Simple SMS Messenger' },
+	{ f: 'onestep_001_SimpleSmsSend_d0.0.gif', l: 'Simple SMS — step 2' },
+	{ f: 'onestep_002_NotesRecipeIngredien_d0.0.gif', l: 'Broccoli — new recipe' },
+	{ f: 'onestep_003_RetroPlaylistDuratio_d1.0.gif', l: 'Retro Music — ringtone' },
 	{ f: 'onestep_005_ApplockProAPPLockGua_d4.0.gif', l: 'Applock Pro' },
 	{ f: 'onestep_011_ChatbotAISmartAssist_d32.0.gif', l: 'Chatbot AI assistant' },
 	{ f: 'onestep_012_GooglePlayStoreSetti_d43.6.gif', l: 'Google Play Store' },
-	{ f: 'onestep_016_ClockZohoMeetingX_d54.7.gif', l: 'Clock / Zoho Meeting' },
-	{ f: 'onestep_019_MarkorEditNote_d62.6.gif', l: 'Markor — edit note' },
-	{ f: 'onestep_020_app_d63.1.gif', l: 'App switch' },
-	{ f: 'onestep_022_SimpleSmsResend_d65.6.gif', l: 'Simple SMS Resend' },
 ]
 ---
 
@@ -111,7 +109,9 @@ const onestep = [
 
 	<h1>One-step decoding</h1>
 	<p class='muted'>The same agent without chain-of-thought: a single block-diffusion decode
-		(bd4, no autoregression) emits one UI action in one step. Click to enlarge.</p>
+		(bd4, no autoregression) emits one UI action in one step. All examples are correct
+		groundings — the green marker is the model's tap, landing on the ground-truth target.
+		Click to enlarge.</p>
 	<div class='gallery'>
 		{onestep.map((g) => (
 			<figure class='gcard'>
