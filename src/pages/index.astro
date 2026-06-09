@@ -17,13 +17,12 @@ const links = [
 ]
 
 // Chain-of-thought reasoning examples (reason, then act); GT vs prediction shown.
-// Mostly successes (action matches the ground-truth target), with a couple of failures.
+// All show real CoT (decoded as block diffusion); balanced 2 solved : 2 near-miss.
 const reasoning = [
 	{ f: 'reasoning_13_app.gif', l: 'News (NBC) → Chrome', ok: true },
-	{ f: 'reasoning_20_SimpleCalendarEv.gif', l: 'Simple Calendar', ok: true },
-	{ f: 'reasoning_23_app.gif', l: 'Navigate back', ok: true },
-	{ f: 'reasoning_04_ChatbotAISmartA.gif', l: 'Chatbot AI assistant', ok: false },
-	{ f: 'reasoning_24_YoutubeThings.gif', l: 'YouTube', ok: false },
+	{ f: 'reasoning_20_SimpleCalendarEv.gif', l: 'Simple Calendar event', ok: true },
+	{ f: 'reasoning_12_app.gif', l: 'Tap product image', ok: false },
+	{ f: 'reasoning_10_GooglePlayStore.gif', l: 'Uninstall via Play Store', ok: false },
 ]
 
 // One-step decoding: a single block-diffusion decode of one action (bd4, no autoregression).
@@ -97,10 +96,10 @@ const onestep = [
 	</p>
 
 	<h1>Reasoning, then acting</h1>
-	<p class='muted'>W0 can emit a chain-of-thought before the action. Each example shows the
-		model's reasoning and the decoded action on a live AndroidWorld screen (ground-truth target
-		vs. the model's prediction); mostly successful cases, with a couple of failures for honesty.
-		Click any example to enlarge and read the full reasoning.</p>
+	<p class='muted'>W0 can emit a chain-of-thought before the action. Each example decodes the
+		reasoning <i>and</i> the action as block diffusion on a live AndroidWorld screen (ground-truth
+		target vs. the model's prediction): two solved tasks and two near-misses, where the tap lands
+		just outside the target. Click any example to enlarge and read the full reasoning.</p>
 	<div class='gallery gallery-wide'>
 		{reasoning.map((g) => (
 			<figure class='gcard'>
