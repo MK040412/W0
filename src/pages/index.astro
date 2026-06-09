@@ -26,15 +26,13 @@ const reasoning = [
 ]
 
 // One-step decoding: a single block-diffusion decode of one action (bd4, no autoregression).
-// Curated to correct groundings (green tap marker = model's tap, on target); deduped by task.
+// Success cases only: every tap (green marker) lands exactly on the ground-truth target.
 const onestep = [
-	{ f: 'onestep_000_SimpleSmsSend_d0.0.gif', l: 'Simple SMS Messenger' },
-	{ f: 'onestep_001_SimpleSmsSend_d0.0.gif', l: 'Simple SMS — step 2' },
-	{ f: 'onestep_002_NotesRecipeIngredien_d0.0.gif', l: 'Broccoli — new recipe' },
-	{ f: 'onestep_003_RetroPlaylistDuratio_d1.0.gif', l: 'Retro Music — ringtone' },
-	{ f: 'onestep_005_ApplockProAPPLockGua_d4.0.gif', l: 'Applock Pro' },
-	{ f: 'onestep_011_ChatbotAISmartAssist_d32.0.gif', l: 'Chatbot AI assistant' },
-	{ f: 'onestep_012_GooglePlayStoreSetti_d43.6.gif', l: 'Google Play Store' },
+	{ f: 'onestep_ok_000_SimpleSmsSend.gif', l: 'Simple SMS Messenger' },
+	{ f: 'onestep_ok_001_SimpleSmsSend.gif', l: 'Simple SMS — step 2' },
+	{ f: 'onestep_ok_002_BroccoliRecipe.gif', l: 'Broccoli — new recipe' },
+	{ f: 'onestep_ok_003_RetroMusic.gif', l: 'Retro Music — ringtone' },
+	{ f: 'onestep_ok_005_ApplockPro.gif', l: 'Applock Pro' },
 ]
 ---
 
