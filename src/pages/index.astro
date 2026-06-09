@@ -17,15 +17,13 @@ const links = [
 ]
 
 // Chain-of-thought reasoning examples (reason, then act); GT vs prediction shown.
+// Mostly successes (action matches the ground-truth target), with a couple of failures.
 const reasoning = [
-	{ f: 'reasoning_02_comandroidchrome.gif', l: 'Chrome' },
-	{ f: 'reasoning_04_ChatbotAISmartA.gif', l: 'Chatbot AI assistant' },
-	{ f: 'reasoning_07_ClockZohoMeetin.gif', l: 'Clock / Zoho Meeting' },
-	{ f: 'reasoning_09_comgoogleandroid.gif', l: 'Google (Android)' },
-	{ f: 'reasoning_16_SimpleSmsSendRec.gif', l: 'Simple SMS' },
-	{ f: 'reasoning_20_SimpleCalendarEv.gif', l: 'Simple Calendar' },
-	{ f: 'reasoning_21_MarkorCreateNote.gif', l: 'Markor — create note' },
-	{ f: 'reasoning_24_YoutubeThings.gif', l: 'YouTube' },
+	{ f: 'reasoning_13_app.gif', l: 'News (NBC) → Chrome', ok: true },
+	{ f: 'reasoning_20_SimpleCalendarEv.gif', l: 'Simple Calendar', ok: true },
+	{ f: 'reasoning_23_app.gif', l: 'Navigate back', ok: true },
+	{ f: 'reasoning_04_ChatbotAISmartA.gif', l: 'Chatbot AI assistant', ok: false },
+	{ f: 'reasoning_24_YoutubeThings.gif', l: 'YouTube', ok: false },
 ]
 
 // One-step decoding: a single block-diffusion decode of one action (bd4, no autoregression).
@@ -101,12 +99,13 @@ const onestep = [
 	<h1>Reasoning, then acting</h1>
 	<p class='muted'>W0 can emit a chain-of-thought before the action. Each example shows the
 		model's reasoning and the decoded action on a live AndroidWorld screen (ground-truth target
-		vs. the model's prediction). Click any example to enlarge and read the full reasoning.</p>
+		vs. the model's prediction); mostly successful cases, with a couple of failures for honesty.
+		Click any example to enlarge and read the full reasoning.</p>
 	<div class='gallery gallery-wide'>
 		{reasoning.map((g) => (
 			<figure class='gcard'>
 				<img loading='lazy' src={`${base}/assets/reasoning/${g.f}`} alt={g.l} />
-				<figcaption>{g.l}</figcaption>
+				<figcaption><span class={g.ok ? 'ok' : 'bad'}>{g.ok ? '✓' : '✗'}</span> {g.l}</figcaption>
 			</figure>
 		))}
 	</div>
@@ -150,6 +149,8 @@ const onestep = [
 	.twoup h3 { text-align: center; margin: 0 0 8px; }
 	.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; margin: 14px 0; }
 	.gallery-wide { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+	.gcard .ok { color: #1a8f4c; font-weight: 700; }
+	.gcard .bad { color: #c0392b; font-weight: 700; }
 	.gcard { margin: 0; }
 	.gcard img { width: 100%; border-radius: 8px; border: 1px solid var(--border); display: block; cursor: zoom-in; transition: transform .12s ease; }
 	.gcard img:hover { transform: scale(1.03); }
